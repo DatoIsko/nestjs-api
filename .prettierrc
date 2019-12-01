@@ -1,4 +1,17 @@
 {
+  "bracketSpacing": true,
   "singleQuote": true,
-  "trailingComma": "all"
+  "tabWidth": 2,
+  "trailing-comma": [
+    true,
+    {
+      "singleline": "never",
+      "multiline": {
+        "objects": "ignore",
+        "arrays": "ignore",
+        "functions": "never",
+        "typeLiterals": "ignore"
+      }
+    }
+  ]
 }
