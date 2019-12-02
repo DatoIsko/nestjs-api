@@ -1,0 +1,17 @@
+/*tslint:disable max-classes-per-file*/
+import { IsString, IsNotEmpty } from 'class-validator';
+
+export class UserDTO {
+  @IsNotEmpty()
+  readonly username: string;
+
+  @IsNotEmpty()
+  readonly password: string;
+}
+
+export class UserRO {
+  id: string;
+  username: string;
+  created: Date;
+  token?: string;
+}
