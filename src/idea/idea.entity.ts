@@ -7,7 +7,9 @@ import {
 
 @Entity('idea')
 export class IdeaEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn({
+    type: 'uuid'
+  })
   id: string;
 
   @CreateDateColumn() created: Date;
