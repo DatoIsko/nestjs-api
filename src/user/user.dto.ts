@@ -1,5 +1,6 @@
 /*tslint:disable max-classes-per-file*/
 import { IsString, IsNotEmpty } from 'class-validator';
+import { IdeaEntity } from './../idea/idea.entity';
 
 export class UserDTO {
   @IsNotEmpty()
@@ -14,4 +15,5 @@ export class UserRO {
   username: string;
   created: Date;
   token?: string;
+  bookmarks?: IdeaEntity[];
 }
