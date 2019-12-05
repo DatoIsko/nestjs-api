@@ -8,7 +8,6 @@ import { UserEntity } from 'src/user/user.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([IdeaEntity, UserEntity])],
   controllers: [IdeaController],
-  providers: [IdeaService],
-  exports: [IdeaService]
+  providers: [IdeaService]
 })
 export class IdeaModule {}

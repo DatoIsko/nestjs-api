@@ -6,14 +6,16 @@ import {
   ManyToOne,
   UpdateDateColumn,
   ManyToMany,
-  JoinTable
+  JoinTable,
+  OneToMany
 } from 'typeorm';
 import { UserEntity } from 'src/user/user.entity';
+import { CommentEntity } from 'src/comment/comment.entity';
 
 @Entity('idea')
 export class IdeaEntity {
   @PrimaryGeneratedColumn({
-    type: 'uuid'
+    type: 'int'
   })
   id: string;
 
@@ -25,14 +27,24 @@ export class IdeaEntity {
 
   @Column('text') description: string;
 
-  @ManyToOne(type => UserEntity, author => author.ideas)
+  @ManyToOne(
+    type => UserEntity,
+    author => author.ideas
+  )
   author: UserEntity;
 
-  @ManyToMany(type => UserEntity, {cascade: true})
+  @ManyToMany(type => UserEntity, { cascade: true })
   @JoinTable()
   upvotes: UserEntity[];
 
-  @ManyToMany(type => UserEntity, {cascade: true})
+  @ManyToMany(type => UserEntity, { cascade: true })
   @JoinTable()
   downvotes: UserEntity[];
+
+  @OneToMany(
+    type => CommentEntity,
+    comment => comment.idea,
+    { cascade: true }
+  )
+  comments: CommentEntity[];
 }
