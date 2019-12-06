@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { UserEntity } from './user.entity';
 import { UserDTO, UserRO } from './user.dto';
+import { IQuery } from 'src/shared/query.interface';
 
 @Injectable()
 export class UserService {
@@ -12,8 +13,14 @@ export class UserService {
     private userRepository: Repository<UserEntity>
   ) {}
 
-  async shawAll(): Promise<UserRO[]> {
-    const users = await this.userRepository.find({relations: ['ideas', 'bookmarks']});
+  async shawAll(q: IQuery): Promise<UserRO[]> {
+    const limit = q.limit || 25;
+    const page = q.page || 1;
+    const users = await this.userRepository.find({
+      relations: ['ideas', 'bookmarks'],
+      take: limit,
+      skip: limit * (page - 1)
+    });
 
     return users.map(user => user.toResponseObject(false));
   }

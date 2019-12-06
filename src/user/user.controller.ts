@@ -1,9 +1,18 @@
 import { UserDTO } from './user.dto';
-import { Controller, Get, Post, Body, UsePipes, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UsePipes,
+  UseGuards,
+  Query
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { ValidationPipe } from 'src/shared/validation.pipe';
 import { AuthGuard } from 'src/shared/auth.guard';
 import { User } from 'src/shared/user.decorator';
+import { IQuery } from 'src/shared/query.interface';
 
 @Controller()
 export class UserController {
@@ -11,8 +20,8 @@ export class UserController {
 
   @Get('api/users')
   // @UseGuards(new AuthGuard())
-  showAllUsers() {
-    return this.userService.shawAll();
+  showAllUsers(@Query() query: IQuery) {
+    return this.userService.shawAll(query);
   }
 
   @Post('login')
