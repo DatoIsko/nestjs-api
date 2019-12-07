@@ -1,4 +1,5 @@
 export interface IQuery {
-  page: number;
-  limit: number;
+  order?: boolean;
+  page?: number;
+  limit?: number;
 }

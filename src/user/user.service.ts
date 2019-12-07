@@ -13,9 +13,9 @@ export class UserService {
     private userRepository: Repository<UserEntity>
   ) {}
 
-  async shawAll(q: IQuery): Promise<UserRO[]> {
-    const limit = q.limit || 25;
-    const page = q.page || 1;
+  async shawAll(q?: IQuery): Promise<UserRO[]> {
+    const limit = q && q.limit || 25;
+    const page = q && q.page || 1;
     const users = await this.userRepository.find({
       relations: ['ideas', 'bookmarks'],
       take: limit,

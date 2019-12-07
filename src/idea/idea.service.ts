@@ -1,11 +1,11 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-
 import { IdeaEntity } from './idea.entity';
 import { IdeaDTO, IdeaRO } from './idea.dto';
 import { UserEntity } from 'src/user/user.entity';
 import { Votes } from 'src/shared/votes.enum';
+import { IQuery } from 'src/shared/query.interface';
 
 @Injectable()
 export class IdeaService {
@@ -56,8 +56,22 @@ export class IdeaService {
 
     return idea;
   }
+  async findAll(q?: IQuery): Promise<IdeaRO[]> {
+    const limit = (q && q.limit) || 25;
+    const page = (q && q.page) || 1;
 
-  async findAll(userId: string): Promise<IdeaRO[]> {
+    const ideas = await this.ideaRepository.find({
+      relations: ['author', 'upvotes', 'downvotes', 'comments'],
+      take: limit,
+      skip: limit * (page - 1)
+    });
+
+    return ideas
+      .filter(idea => idea.author)
+      .map(idea => this.toResponseObject(idea));
+  }
+
+  async findAllByUser(userId: string): Promise<IdeaRO[]> {
     const ideas = await this.ideaRepository.find({
       relations: ['author', 'upvotes', 'downvotes', 'comments'],
       where: { author: userId }

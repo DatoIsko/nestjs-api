@@ -20,8 +20,8 @@ export class HttpErrorFilter implements ExceptionFilter {
     const errorResponse = {
       code: status,
       timestamp: new Date().toLocaleDateString(),
-      path: request.url,
-      method: request.method,
+      path: request && request.url,
+      method: request && request.method,
       message:
         status !== HttpStatus.INTERNAL_SERVER_ERROR
           ? exception.message.error || exception.message || null
@@ -33,7 +33,7 @@ export class HttpErrorFilter implements ExceptionFilter {
       console.error(exception);
     }
     Logger.error(
-      `${request.method} ${request.url}`,
+      `${request && request.method} ${request && request.url}`,
       JSON.stringify(errorResponse),
       'ExceptionFilter'
     );

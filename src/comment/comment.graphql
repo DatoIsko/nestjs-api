@@ -1,0 +1,11 @@
+type Comment{
+  id: ID!
+  created: String!
+  comment: String!
+  author: User!
+  idea: Idea!
+}
+
+type Query {
+  commentsByIdea: [Comment!]
+}

@@ -1,0 +1,22 @@
+type User {
+  id: ID!
+  username: String!
+  created: String
+  bookmarks: [Idea!]
+  ideas: [Idea!]
+  comments: [Comment]
+}
+
+type Query {
+  users(page: Int, limit: Int): [User!]
+  createUser: Mutation
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput): User
+}
+
+input CreateUserInput {
+  username: String
+  password: String
+}

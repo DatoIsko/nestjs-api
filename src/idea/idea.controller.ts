@@ -34,10 +34,15 @@ export class IdeaController {
     }
   }
 
+  @Get('all')
+  showAll() {
+    return this.ideaService.findAll();
+  }
+
   @Get()
   @UseGuards(new AuthGuard())
   showAllIdeas(@User('id') userId) {
-    return this.ideaService.findAll(userId);
+    return this.ideaService.findAllByUser(userId);
   }
 
   @Post()
