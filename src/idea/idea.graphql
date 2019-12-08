@@ -17,4 +17,10 @@ type Query {
 
 type Mutation {
   createIdea(idea: String!, description: String!): Idea!
+  updateIdea(id: ID!, idea: String, description: String): Idea!
+  deleteIdea(id: ID!): Idea!
+  upvote(id: ID!): Idea!
+  downvote(id: ID!): Idea!
+  bookmark(id: ID!): User!
+  unbookmark(id: ID!): User!
 }

@@ -62,7 +62,7 @@ export class CommentController {
   @Get(':id')
   showComment(@Param('id') id: string) {
     this.logger.log(id);
-    return this.commentService.findOne(id);
+    return this.commentService.show(id);
   }
 
   @Delete(':id')

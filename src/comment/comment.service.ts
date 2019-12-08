@@ -79,7 +79,7 @@ export class CommentService {
     return comments.map(comment => this.toResponseObject(comment));
   }
 
-  async findOne(id: string): Promise<CommentEntity> {
+  async show(id: string): Promise<CommentEntity> {
     const comment = await this.commentRepository.findOne({
       where: { id },
       relations: ['author', 'idea']
@@ -102,9 +102,7 @@ export class CommentService {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
     this.ensureOwnership(comment, userId);
-    // can use this 2 version
-    // await this.commentRepository.delete({ id });
-    await this.commentRepository.remove(comment);
+    await this.commentRepository.delete({ id });
 
     return this.toResponseObject(comment);
   }

@@ -65,7 +65,54 @@ export class IdeaResolver {
     const { id } = user;
     const data: IdeaDTO = { idea, description };
     const createdIdea = await this.ideaService.create(id, data);
-
     return createdIdea;
+  }
+
+  @Mutation('updateIdea')
+  @UseGuards(new AuthGuard())
+  update(
+    @Context('user') user,
+    @Args('id') id: string,
+    @Args('idea') idea: string,
+    @Args('description') description: string
+  ) {
+    const { id: userId } = user;
+    const data = { idea, description };
+    return this.ideaService.update(id, userId, data);
+  }
+
+  @Mutation('deleteIdea')
+  @UseGuards(new AuthGuard())
+  delete(@Args('id') id: string, @Context('user') user) {
+    const { id: userId } = user;
+    return this.ideaService.destroy(id, userId);
+  }
+
+  @Mutation()
+  @UseGuards(new AuthGuard())
+  upvote(@Args('id') id: string, @Context('user') user) {
+    const { id: userId } = user;
+    return this.ideaService.upvote(id, userId);
+  }
+
+  @Mutation()
+  @UseGuards(new AuthGuard())
+  downvote(@Args('id') id: string, @Context('user') user) {
+    const { id: userId } = user;
+    return this.ideaService.downvote(id, userId);
+  }
+
+  @Mutation()
+  @UseGuards(new AuthGuard())
+  bookmark(@Args('id') id: string, @Context('user') user) {
+    const { id: userId } = user;
+    return this.ideaService.bookmark(id, userId);
+  }
+
+  @Mutation()
+  @UseGuards(new AuthGuard())
+  unbookmark(@Args('id') id: string, @Context('user') user) {
+    const { id: userId } = user;
+    return this.ideaService.unbookmark(id, userId);
   }
 }
