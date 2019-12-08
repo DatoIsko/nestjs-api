@@ -59,9 +59,9 @@ export class IdeaService {
   async findAll(q?: IQuery): Promise<IdeaRO[]> {
     const limit = (q && q.limit) || 25;
     const page = (q && q.page) || 1;
-
     const ideas = await this.ideaRepository.find({
       relations: ['author', 'upvotes', 'downvotes', 'comments'],
+      order: { created: q && q.order ? 'DESC' : 'ASC' },
       take: limit,
       skip: limit * (page - 1)
     });
@@ -71,10 +71,15 @@ export class IdeaService {
       .map(idea => this.toResponseObject(idea));
   }
 
-  async findAllByUser(userId: string): Promise<IdeaRO[]> {
+  async findAllByUser(userId: string, q?: IQuery): Promise<IdeaRO[]> {
+    const limit = (q && q.limit) || 25;
+    const page = (q && q.page) || 1;
     const ideas = await this.ideaRepository.find({
       relations: ['author', 'upvotes', 'downvotes', 'comments'],
-      where: { author: userId }
+      where: { author: userId },
+      order: { created: q && q.order ? 'DESC' : 'ASC' },
+      take: limit,
+      skip: limit * (page - 1)
     });
 
     return ideas

@@ -15,7 +15,8 @@ import { AuthGuard } from './shared/auth.guard';
   imports: [
     TypeOrmModule.forRoot(),
     GraphQLModule.forRoot({
-      typePaths: ['./src/**/*.graphql']
+      typePaths: ['./src/**/*.graphql'],
+      context: ({ req }) => ({ headers: req.headers })
       //   installSubscriptionHandlers: true,
       //   schema: [],
       //   debug: false,

@@ -8,14 +8,15 @@ import {
   Body,
   UsePipes,
   Logger,
-  UseGuards
+  UseGuards,
+  Query
 } from '@nestjs/common';
 import { IdeaService } from './idea.service';
-import { IdeaDTO, IdeaRO } from './idea.dto';
+import { IdeaDTO } from './idea.dto';
 import { ValidationPipe } from 'src/shared/validation.pipe';
 import { AuthGuard } from 'src/shared/auth.guard';
-import { UserRO } from 'src/user/user.dto';
 import { User } from 'src/shared/user.decorator';
+import { IQuery } from 'src/shared/query.interface';
 
 @Controller('api/ideas')
 export class IdeaController {
@@ -35,8 +36,8 @@ export class IdeaController {
   }
 
   @Get('all')
-  showAll() {
-    return this.ideaService.findAll();
+  showAll(@Query() query?: IQuery) {
+    return this.ideaService.findAll(query);
   }
 
   @Get()

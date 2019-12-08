@@ -14,8 +14,8 @@ export class UserService {
   ) {}
 
   async shawAll(q?: IQuery): Promise<UserRO[]> {
-    const limit = q && q.limit || 25;
-    const page = q && q.page || 1;
+    const limit = (q && q.limit) || 25;
+    const page = (q && q.page) || 1;
     const users = await this.userRepository.find({
       relations: ['ideas', 'bookmarks'],
       take: limit,
@@ -23,6 +23,15 @@ export class UserService {
     });
 
     return users.map(user => user.toResponseObject(false));
+  }
+
+  async read(username: string) {
+    const user = await this.userRepository.findOne({
+      where: { username },
+      relations: ['ideas', 'bookmarks']
+    });
+
+    return user.toResponseObject(false);
   }
 
   async login(data: UserDTO): Promise<UserRO> {

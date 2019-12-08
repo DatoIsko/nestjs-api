@@ -11,5 +11,10 @@ type Idea {
 }
 
 type Query {
-  ideas(page: Int, newest: Boolean): [Idea]
+  ideas(page: Int, limit: Int, newest: Boolean): [Idea]
+  myIdeas(page: Int, limit: Int, newest: Boolean): [Idea]
+}
+
+type Mutation {
+  createIdea(idea: String!, description: String!): Idea!
 }
